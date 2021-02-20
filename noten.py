@@ -2,6 +2,7 @@
 
 import datetime
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException as NoEle
 from bs4 import BeautifulSoup
 from time import sleep
@@ -13,15 +14,17 @@ from sys import platform
 
 class QIS_BOT:
     def __init__(self, username, pw):
+        chorme_opt = Options()
+        chorme_opt.add_argument('--headless')
         global path1
         import sys
         if platform == 'linux' or platform == 'linux2':
             path1 = os.path.join(sys.path[0], 'chromedriver')
         elif platform == 'win32':
             path1 = os.path.join(sys.path[0], 'chromedriver.exe')
-        self.driver = webdriver.Chrome(path1)
+        self.driver = webdriver.Chrome(options=chorme_opt)
         self.driver.get("https://qis.othr.de/")
-        sleep(1)
+        sleep(2)
         self.driver.find_element_by_xpath("//*[@id='asdf']").send_keys(username)
         self.driver.find_element_by_xpath("//*[@id='fdsa']").send_keys(pw)
         self.driver.find_element_by_xpath("//*[@id='loginForm:login']").click()
